@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Food Order Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function placeorder() {
+            document.getElementById("order_summary").style.display = "block";
+
+            const uname = document.getElementById("txtname").value;
+            const mobile = document.getElementById("txtmobile").value;
+            const burger = document.getElementById("optburger");
+            const role = document.getElementById("optrole");
+            const pizza = document.getElementById("optpizza");
+            const fries = document.getElementById("optfries");
+
+            if (!uname || !mobile) {
+                alert("Please enter your name and mobile number.");
+                return;
+            }
+
+            // Phone number validation
+            const phonePattern = /^[1-9]\d{9}$/;
+            if (!phonePattern.test(mobile)) {
+                alert("Please enter a valid 10-digit mobile number starting with 1-9.");
+                return;
+            }
+
+            let mcost = 0;
+            let acost = 60;
+            let mname = "";
+            let aname = "";
+
+            if (burger.checked) { mcost += 120; mname += burger.value + "<br>"; }
+            if (role.checked) { mcost += 150; mname += role.value + "<br>"; }
+            if (pizza.checked) { mcost += 150; mname += pizza.value + "<br>"; }
+            if (fries.checked) { mcost += acost; aname = fries.value; }
+
+            document.getElementById("lblName").innerHTML = uname;
+            document.getElementById("lblMobile").innerHTML = mobile;
+            document.getElementById("lblmeal").innerHTML = mname || "None";
+            document.getElementById("lbladd").innerHTML = aname || "None";
+            document.getElementById("lblAmount").innerHTML = `₹${mcost}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Online Food Order Platform</h1>
+
+    <div class="container">
+        <div class="section">
+            <label>Customer Name:</label>
+            <input type="text" id="txtname">
+            <label>Customer Mobile No:</label>
+            <input type="text" id="txtmobile">
+        </div>
+
+        <div class="section">
+            <h3>Select a Meal</h3>
+            <div class="menu-item"><img src="burger.jpeg"><input type="checkbox" id="optburger" value="Chicken Burger"> Burger (₹120)</div>
+            <div class="menu-item"><img src="role.jpeg"><input type="checkbox" id="optrole" value="EGG Role"> Role (₹150)</div>
+            <div class="menu-item"><img src="pizza.jpg"><input type="checkbox" id="optpizza" value="Organo Sesoning Pizza"> Pizza (₹150)</div>
+        </div>
+
+        <div class="section">
+            <h3>Select Add-ons</h3>
+            <div class="menu-item"><img src="fries.jpeg"><input type="checkbox" id="optfries" value="Large Fries"> Large Fries (₹60)</div>
+        </div>
+
+        <input type="button" class="btn" value="Place Order" onclick="placeorder()">
+
+        <div class="summary" id="order_summary">
+            <h2>Order Summary</h2>
+            <p><b>Customer Name:</b> <span id="lblName"></span></p>
+            <p><b>Mobile:</b> <span id="lblMobile"></span></p>
+            <p><b>Meal:</b> <span id="lblmeal"></span></p>
+            <p><b>Add-ons:</b> <span id="lbladd"></span></p>
+            <p><b>Total Bill Amount:</b> <span id="lblAmount"></span></p>
+            <input type="button" class="btn" value="Print Bill" onclick="window.print()">
+        </div>
+    </div>
+</body>
+</html>
